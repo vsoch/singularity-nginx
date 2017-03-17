@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+    
+{% block content %}
+
+    <div class="col-md-3">
+        <div class="row">
+
+        <form action="/container" method="POST">      
+          <label for="container">Containers</label><br>
+
+          <select id="container" name="container" style="width:300px">
+          {% for container in containers %}    
+              <option value="{{ container }}">{{ container }}</option>
+          {% endfor %}    
+          </select>
+          <input type="submit" value="view container" id="view_container">
+                
+        </form>
+        </div>
+
+    </form>
+
+</div>
+<div class ="col-md-9">
+<h1 style="color:#999;padding-top:200px;padding-left:200px">Which container do you want to inspect?</h1>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $("#container").select2();
+     
+        // Navigate to author or method page on select
+        $("#view_container").click(function(){
+            console.log("View Container selected.")
+            var selected = $("#container").val();
+            document.location = '/container/' + selected
+        });
+
+    });
+    </script>
+{% endblock %}

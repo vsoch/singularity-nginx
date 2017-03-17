@@ -3,6 +3,9 @@
 ## Introduction
 This small web application runs Singularity containers from a URL. The containers are expected to print some response to the console, and this response is rendered as a web view when the container address is gone to. Read these instructions carefully, so you know how to define acceptable arguments for the container to transmit to the user.
 
+![img/container.png](container.png)
+
+
 ## Designing Containers
 
 ### Input Arguments
@@ -82,10 +85,21 @@ You can use docker compose to deploy:
 ```bash          
 docker-compose up -d
 ```
-and then go to `127.0.0.1` (localhost). The containers available will be shown on the screen. Here are some useful endpoints:
+and then go to `127.0.0.1` (localhost). The containers available will be shown on the screen. 
 
+## Endpoints
+Here are some useful endpoints:
+
+### Views
  - `/`: the root will show all containers available. When the user selects, he/she is taken to a screen to see input arguments. 
+ - `/containers/random`: will return a random container
  - `/container/container.img`: will show metadata about a container.
- - `/container/container.img/args`: will show a json response with acceptable input args.
- - `/container/run/container.img`: Is the base for running a container, this one would be container.img
 
+### API
+The following are considered API, meaning they return a text or json response, not intended for the user to interact with.
+
+ - `/api/containers`: a list of all available containers
+ - `/api/container/<string:name>`: a json object with container args, labels, and links.
+ - `/api/container/args/<string:name>`: json of just container args
+ - `/api/container/labels/<string:name>`: json of juist container labels
+ - `/container/run/container.img`: Is the base for running a container, this one would be container.img. Arguments can be added as POST (eg, `?name=Amy`)

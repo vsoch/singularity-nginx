@@ -1,0 +1,24 @@
+web:
+  restart: always
+  image: vanessa/singularity-nginx
+  privileged: true
+  expose:
+    - "5000"
+  volumes:
+    - /usr/src/app/static
+    - .:/code
+  command: /usr/local/bin/gunicorn -w 2 -b :8000 app.main:app
+
+nginx:
+  restart: always
+  image: nginx
+  ports:
+    - "80:80"
+  volumes:
+    - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    - ./uwsgi_params.par:/etc/nginx/uwsgi_params.par:ro
+  volumes_from:
+    - web
+  links:
+    - web:web
+

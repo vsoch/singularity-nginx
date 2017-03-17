@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+     <!-- SIDEBAR CONTROLS -->
+      <div class="col-md-3">
+        <div class="row">
+            
+             <form>
+             <label for="author" class="floatLabel">{{ container }}</label><br>
+             <input type="submit" value="all containers" id="view_all">
+             </form>
+
+        </div>
+        <div class="row">
+         <a href="" target="_blank"><button id="about_button" class="btn btn-default btn-xl question_button" data-toggle="modal" data-target="#about_modal">What am I looking at?</button></a> 
+         <button id="random_button" class="btn btn-default btn-xl question_button">Select Random Container</button> 
+
+        <div class="modal fade" id="about_modal" tabindex="-1" role="dialog" aria-labelledby="about_label">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content" style="padding:20px">
+                    <div style="float:right">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                    <h3>Container Labels</h3>
+                    <p class="well">Each of these labels in the table is stored as metadata inside the container, available at <span style="color:#e32929">/.singularity/labels.json</span>. The labels carry a URI specific to either Singularity Hub or related applications like this one (<span style="color:#e32929">Singularity</span>), Docker (<span style="color:#e32929">DOCKER</span>) or without a label means it was derived with the bootstrap. If you see a label that begins with <span style="color:#e32929">SINGULARITY_RUNSCRIPT_ARG_*</span>, this means it gets parsed as an available argument for this application. More information is available in the README on <a href="https://github.com/vsoch/singularity-nginx" target="_blank">github</a>.
+                    </p>
+                    <h3>Container Input Arguments</h3>
+                    <p class="well">The container input arguments are derived from the labels, and the type is determined by the ending term of <span style="color:#e32929">SINGULARITY_RUNSCRIPT_ARG_*</span></p>
+                    </div>
+                 <div class="modal-footer">
+                 <button type="button" class="btn btn-default" data-dismiss="modal">Got It!</button>
+             </div>
+          </div>
+       </div>
+       </div>
+ 
+        </div>
+        </div>
+
+        <!-- ARTICLES -->
+        <div class="col-md-9">
+            <div class="row">
+                <div class="summary">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    {% for argtype,values in args.items() %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading{{ loop.index }}">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ loop.index }}" aria-expanded="false" aria-controls="collapse{{ loop.index }}">
+                                {{ argtype }}
+                                </a>
+                            </h4>
+                         </div>
+                         {% if loop.index == 1 %}
+                         <div id="collapse{{ loop.index }}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{{ loop.index }}">
+                         {% else %}
+                         <div id="collapse{{ loop.index }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{ loop.index }}">
+                         {% endif %}
+                            <div class="panel-body">
+                            {% for value in values %}
+                            <h4><italic>{{ value }}</italic>: <span style="color:#e32929">.{{ links.actions.run }} </span><strong>--{{ value }}</strong></h4>
+                            <br><br>
+
+                            <!--Share Buttons-->
+                            <a href="{{ links.actions.view }}" target="_blank"><button class="btn btn-default btn-sm">Share</button></a>
+
+                            <!--APIButtons-->
+                            <a href="{{ links.api.labels }}" target="_blank"><button class="btn btn-secondary btn-sm">Labels</button></a>
+                            <a href="{{ links.api.args }}" target="_blank"><button class="btn btn-secondary btn-sm">Args</button></a>
+
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+             </div>
+         </div><!--/summary-->
+     </div><!--/row-->
+
+     <!-- AUTHOR HEATMAP -->
+     <div class="row">
+        <div class="summary">
+
+        <table id="label_table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Similarity Score</th>
+                <th>Method</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Label</th>
+                <th>Value</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for key,value in labels.items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>{{ value }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+        </div>
+     </div>
+  </div><!--column-->
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+    $(document).ready(function() {
+     
+        $("#random_button").click(function(){
+            document.location = "/containers/random";
+        });
+     
+        $("#view_all").click(function(){
+            document.location = '/'
+        })
+
+        $('#label_table').DataTable();
+    });
+    </script>
+{% endblock %}
