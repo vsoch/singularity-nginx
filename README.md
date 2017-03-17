@@ -3,7 +3,7 @@
 ## Introduction
 This small web application runs Singularity containers from a URL. The containers are expected to print some response to the console, and this response is rendered as a web view when the container address is gone to. Read these instructions carefully, so you know how to define acceptable arguments for the container to transmit to the user.
 
-![img/container.png](container.png)
+![img/container.png](img/container.png)
 
 
 ## Designing Containers
