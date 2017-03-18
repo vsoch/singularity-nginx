@@ -79,6 +79,14 @@ cd data
 singularity pull shub://vsoch/singularity-images
 ```
 
+or you can build the example image:
+
+```bash
+cd data
+./generate_demos.sh
+```
+
+
 ## Deployment
 You can use docker compose to deploy:
 

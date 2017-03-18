@@ -5,7 +5,7 @@ Utility functions for singularity-nginx
 '''
 
 import os
-from logman import bot
+from .logman import bot
 from glob import glob
 from singularity.cli import Singularity
 

@@ -7,7 +7,7 @@ web:
   volumes:
     - /usr/src/app/static
     - .:/code
-  command: /usr/local/bin/gunicorn -w 2 -b :8000 app.main:app
+  command: /usr/local/bin/gunicorn -w 2 -b :5000 app.main:app
 
 nginx:
   restart: always

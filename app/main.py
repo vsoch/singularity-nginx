@@ -9,7 +9,7 @@ from flask import (
 from singularity.cli import Singularity
 from flask_restful import Resource, Api
 from werkzeug import secure_filename
-from utils import (
+from .utils import (
     get_containers,
     get_container_links,
     get_container_args,
