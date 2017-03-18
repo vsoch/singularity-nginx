@@ -5,6 +5,7 @@ Utility functions for singularity-nginx
 '''
 
 import os
+import re
 from .logman import bot
 from glob import glob
 from singularity.cli import Singularity
@@ -73,7 +74,7 @@ def sanitize(value):
     '''sanitize is a simple function for sanitizing arguments. All arguments
     come in as strings, and we currently only will support single arguments 
     (without phrases) so all spaces and quotes, and special characters are removed.'''
-    return re.sub('[^A-Za-z0-9.]+', '', value)
+    return re.sub('[^A-Za-z0-9.]+','', value)
 
 
 def check_install(software,command=None):

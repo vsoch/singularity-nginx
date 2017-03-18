@@ -160,12 +160,12 @@ def run_container(container):
 
             if 'int' in cargs and not found:
                 if contender in cargs['int']:
-                    args = args + [flag,int(value)]
+                    args = args + [flag,str(int(value))]
                     found = True
 
             if 'float' in cargs and not found:
                 if contender in cargs['float']:
-                    args = args + [flag,float(value)]
+                    args = args + [flag,str(float(value))]
 
         if len(args) == 0:
             args = None
