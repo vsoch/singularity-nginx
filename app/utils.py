@@ -72,6 +72,12 @@ def run_container(image_path,args=None,cli=None):
         result = cli.run(image_path)
     
 
+def sanitize(value):
+    '''sanitize is a simple function for sanitizing arguments. All arguments
+    come in as strings, and we currently only will support single arguments 
+    (without phrases) so all spaces and quotes, and special characters are removed.'''
+    return re.sub('[^A-Za-z0-9.]+', '', value)
+
 
 def check_install(software,command=None):
     '''check_install will attempt to run the command specified with some argument, 

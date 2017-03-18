@@ -14,7 +14,8 @@ from utils import (
     get_container_links,
     get_container_args,
     get_container_labels,
-    run_container as runc
+    run_container as runc,
+    sanitize
 )
 
 from random import choice
@@ -147,7 +148,7 @@ def run_container(container):
         contenders = list(request.args.keys())
         args = []
         for contender in contenders:
-            value = request.args.get(contender)
+            value = sanitize(request.args.get(contender))
             flag = "--%s" %(contender)
             if contender in bool_args:
                 args.append(flag)
