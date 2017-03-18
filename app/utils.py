@@ -66,10 +66,7 @@ def run_container(image_path,args=None,cli=None):
     if cli is None:
         cli = Singularity()
 
-    if args is not None and len(args) > 0:
-        result = cli.run(image_path,args=args)
-    else:
-        result = cli.run(image_path)
+    return cli.run(image_path,args=args)
     
 
 def sanitize(value):

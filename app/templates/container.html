@@ -3,19 +3,21 @@
 {% block content %}
 
      <!-- SIDEBAR CONTROLS -->
-      <div class="col-md-3">
-        <div class="row">
+<div class="col-md-3">
+    <div class="row">
             
-             <form>
+         <form>
              <label for="author" class="floatLabel">{{ container }}</label><br>
              <input type="submit" value="all containers" id="view_all">
-             </form>
+         </form>
 
-        </div>
-        <div class="row">
+    </div>
+    <div class="row">
          <a href="" target="_blank"><button id="about_button" class="btn btn-default btn-xl question_button" data-toggle="modal" data-target="#about_modal">What am I looking at?</button></a> 
          <button id="random_button" class="btn btn-default btn-xl question_button">Select Random Container</button> 
 
+
+        <!-- Information Modal -->
         <div class="modal fade" id="about_modal" tabindex="-1" role="dialog" aria-labelledby="about_label">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content" style="padding:20px">
@@ -23,27 +25,30 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <div class="modal-body">
-                    <h3>Container Labels</h3>
-                    <p class="well">Each of these labels in the table is stored as metadata inside the container, available at <span style="color:#e32929">/.singularity/labels.json</span>. The labels carry a URI specific to either Singularity Hub or related applications like this one (<span style="color:#e32929">Singularity</span>), Docker (<span style="color:#e32929">DOCKER</span>) or without a label means it was derived with the bootstrap. If you see a label that begins with <span style="color:#e32929">SINGULARITY_RUNSCRIPT_ARG_*</span>, this means it gets parsed as an available argument for this application. More information is available in the README on <a href="https://github.com/vsoch/singularity-nginx" target="_blank">github</a>.
-                    </p>
-                    <h3>Container Input Arguments</h3>
-                    <p class="well">The container input arguments are derived from the labels, and the type is determined by the ending term of <span style="color:#e32929">SINGULARITY_RUNSCRIPT_ARG_*</span></p>
+                        <h3>Container Labels</h3>
+                        <p class="well">Each of these labels in the table is stored as metadata inside the container, available at <span style="color:#e32929">/.singularity/labels.json</span>. The labels carry a URI specific to either Singularity Hub or related applications like this one (<span style="color:#e32929">Singularity</span>), Docker (<span style="color:#e32929">DOCKER</span>) or without a label means it was derived with the bootstrap. If you see a label that begins with <span style="color:#e32929">SINGULARITY_RUNSCRIPT_ARG_*</span>, this means it gets parsed as an available argument for this application. More information is available in the README on <a href="https://github.com/vsoch/singularity-nginx" target="_blank">github</a>.</p>
+                        <h3>Container Input Arguments</h3>
+                        <p class="well">The container input arguments are derived from the labels, and the type is determined by the ending term of <span style="color:#e32929">SINGULARITY_RUNSCRIPT_ARG_*</span></p>
                     </div>
-                 <div class="modal-footer">
-                 <button type="button" class="btn btn-default" data-dismiss="modal">Got It!</button>
+                    <div class="modal-footer">
+                       <button type="button" class="btn btn-default" data-dismiss="modal">Got It!</button>
+                    </div>
+                 </div>
              </div>
-          </div>
-       </div>
-       </div>
- 
-        </div>
-        </div>
+        </div> 
+    </div>
+</div>
+
 
         <!-- ARTICLES -->
         <div class="col-md-9">
             <div class="row">
                 <div class="summary">
                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+                    <h6 title="POST to this url (with or without args, depending on the usage) to run the container.">Run Base</h6>
+                    <h4 style="color:#e32929">{{ links.actions.run }}</h4>
+
                     {% for argtype,values in args.items() %}
                     <div class="panel panel-default">
                         <div class="panel-heading" role="tab" id="heading{{ loop.index }}">

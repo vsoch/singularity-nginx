@@ -139,25 +139,37 @@ def run_container(container):
 
     if container in app.containers:
         image_path = app.containers[container]
-        all_args = get_container_args(image_path,cli=app.cli)
-        str_args = all_args['str']
-        bool_args = all_args['bool']
-        int_args = all_args['int']
-        float_args = all_args['float']
+        cargs = get_container_args(image_path,cli=app.cli)
 
         contenders = list(request.args.keys())
         args = []
+
         for contender in contenders:
             value = sanitize(request.args.get(contender))
             flag = "--%s" %(contender)
-            if contender in bool_args:
-                args.append(flag)
-            elif contender in str_args:
-                args = args + [flag,'"%s"' %value]
-            elif contender in int_args:
-                args = args + [flag,int(value)]
-            elif contender in float_args:
-                args = args + [flag,float(value)]
+            found = False
+
+            if 'bool' in cargs:
+                if contender in cargs['bool']:
+                    args.append(flag)
+
+            if 'str' in cargs and not found:
+                if contender in cargs['str']:
+                    args = args + [flag,'"%s"' %value]
+                    found = True
+
+            if 'int' in cargs and not found:
+                if contender in cargs['int']:
+                    args = args + [flag,int(value)]
+                    found = True
+
+            if 'float' in cargs and not found:
+                if contender in cargs['float']:
+                    args = args + [flag,float(value)]
+
+        if len(args) == 0:
+            args = None
+
         result = runc(image_path,args=args,cli=app.cli)
 
         # Dictionary gets rendered as json
