@@ -5,6 +5,14 @@
 sudo apt-get update > /dev/null
 sudo apt-get -y install git build-essential nginx
 
+# Needed module for system python
+sudo apt-get install -y python-dev
+wget https://bootstrap.pypa.io/get-pip.py
+sudo /usr/bin/python get-pip.py
+rm get-pip.py
+sudo pip install ipaddress
+sudo pip install oauth2client
+
 # Add docker key server
 sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
 
@@ -42,6 +50,7 @@ make
 sudo make install
 
 # Note that you will need to log in and out for changes to take effect
+sudo service nginx stop
 
 if [ ! -d $HOME/singularity-nginx ]
 then
